@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import type { CSSProperties, PointerEvent as ReactPointerEvent } from 'react';
+import type { CSSProperties, PointerEvent as ReactPointerEvent, ReactNode, RefObject } from 'react';
 import { eras, lanes, moments } from './data';
 import type { LaneId, Moment, Era } from './data';
 import {
-  END, FULL_SPAN, INITIAL_CAMERA, NOW, START,
+  FULL_SPAN, INITIAL_CAMERA, NOW, START,
   clampCamera, formatYear, fromWorld, location, makeTicks,
   toWorld, zoomAt, zoomCaption, zoomLevel,
 } from './time';
@@ -21,7 +21,7 @@ const bookmarks: Array<{ label: string; sub: string; icon: string; year?: number
 ];
 
 function SvgIcon({ name, size = 18 }: { name: 'search' | 'plus' | 'minus' | 'close' | 'reset' | 'arrow' | 'layers' | 'info'; size?: number }) {
-  const paths: Record<typeof name, React.ReactNode> = {
+  const paths: Record<typeof name, ReactNode> = {
     search: <><circle cx="10.8" cy="10.8" r="6.5" /><path d="m16 16 5 5" /></>,
     plus: <path d="M12 5v14M5 12h14" />,
     minus: <path d="M5 12h14" />,
@@ -34,7 +34,7 @@ function SvgIcon({ name, size = 18 }: { name: 'search' | 'plus' | 'minus' | 'clo
   return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[name]}</svg>;
 }
 
-function useViewportWidth(ref: React.RefObject<HTMLDivElement | null>) {
+function useViewportWidth(ref: RefObject<HTMLDivElement | null>) {
   const [width, setWidth] = useState(1024);
   useEffect(() => {
     const element = ref.current;
@@ -305,7 +305,7 @@ export default function App() {
               <div className="toolbar-left">
                 <span className="view-status"><span className="status-pulse" /> {zoomCaption(camera)}</span>
                 <span className="toolbar-separator" />
-                <span className="timescale-label">ZOOM {zoom.toFixed(1)}×</span>
+                <span className="timescale-label">LEVEL {zoom.toFixed(1)}</span>
               </div>
               <div className="toolbar-actions">
                 <button className={'tool-button filter-button ' + (showFilters ? 'tool-active' : '')} onClick={() => setShowFilters(x => !x)} aria-expanded={showFilters} title="レーンの表示を選択">
