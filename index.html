@@ -7,9 +7,43 @@
     <meta name="description" content="宇宙誕生から日本史、そして遠い未来まで。拡大して探索する横向きの年表 Chrono。" />
     <link rel="icon" type="image/svg+xml" href="/chrono/favicon.svg" />
     <title>Chrono — 宇宙の始まりから、時間の果てまで。</title>
+    <style>
+      html, body { margin: 0; min-height: 100%; background: #07111e; color: #e9f0f8; }
+      #startup { max-width: 440px; margin: 20vh auto; padding: 24px; text-align: center; font: 14px/1.9 system-ui, sans-serif; }
+      #startup strong { display: block; font-size: 32px; letter-spacing: -.05em; }
+      #startup p { color: #9db3c8; }
+      #startup a { color: #95d8d2; }
+      #startup-error { display: none; }
+    </style>
+    <script>
+      window.addEventListener('error', function (event) {
+        var startup = document.getElementById('startup');
+        if (startup) {
+          var message = document.getElementById('startup-error');
+          if (message) {
+            message.style.display = 'block';
+            message.textContent = 'アプリの読み込みでエラーが発生しました。再読み込みしても改善しない場合は GitHub Actions の実行結果をご確認ください。';
+          }
+        }
+      });
+      window.addEventListener('unhandledrejection', function () {
+        var message = document.getElementById('startup-error');
+        if (message) {
+          message.style.display = 'block';
+          message.textContent = 'アプリの初期化に失敗しました。GitHub Actions の実行結果をご確認ください。';
+        }
+      });
+    </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div id="startup" role="status">
+        <strong>chrono<span style="color:#8ad1ce">.</span></strong>
+        <p>宇宙の始まりから、時間の果てまで。</p>
+        <p>年表を読み込んでいます...</p>
+        <p id="startup-error"></p>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
